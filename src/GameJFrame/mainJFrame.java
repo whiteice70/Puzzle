@@ -5,9 +5,21 @@ import javax.swing.border.BevelBorder;
 
 import SetTool.Tool;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class mainJFrame extends JFrame{
+
+public class mainJFrame extends JFrame implements KeyListener {
+    int sum;
+    String[][] str;
+    int x;
+    int y;
+    int cont;
     public mainJFrame(){
+        this.sum=4;
+        this.cont=0;
+        this.str=Tool.vArray(sum);
+        findXY();
         //初始化页面
         Ui();
         //初始化菜单
@@ -17,6 +29,16 @@ public class mainJFrame extends JFrame{
 
         //让这个页面显示出来
         this.setVisible(true);
+    }
+    public void findXY(){
+        for (int i = 0; i < sum; i++) {
+            for (int i1 = 0; i1 < sum; i1++) {
+                if(str[i][i1].equals("0303")){
+                    this.x=i;
+                    this.y=i1;
+                }
+            }
+        }
     }
     public void Ui(){
         //创建一个新页面
@@ -31,6 +53,8 @@ public class mainJFrame extends JFrame{
         this.setTitle("Puzzle(单机版)");
         //设置页面的关闭方式
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //添加键盘监听事件
+        this.addKeyListener(this);
 
 
     }
@@ -61,8 +85,7 @@ public class mainJFrame extends JFrame{
 
     }
     public void NewImage(){
-        int sum=4;
-        String[][] str=Tool.createArray(sum);
+        this.getContentPane().removeAll();
         setLayout(null);
         for (int i = 0; i < sum; i++) {
             for (int i1 = 0; i1 < sum; i1++) {
@@ -78,5 +101,86 @@ public class mainJFrame extends JFrame{
         JLabel jl0=new JLabel(icon0);
         this.add(jl0);
         jl0.setBounds(75,100,640,722);
+
+        this.getContentPane().repaint();
+    }
+    //判断是否胜利
+    public boolean checkWin(){
+        String[][] str0= Tool.createArray(sum);
+        for (int i = 0; i < sum; i++) {
+            for (int i1 = 0; i1 < sum; i1++) {
+                if(!str[i][i1].equals(str0[i][i1])){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    //根据输入移动空白方块
+    public void move(int input){
+        String temp;
+        switch(input){
+            case 37:
+                if(y!=0){
+                    temp=this.str[this.x][this.y-1];
+                    this.str[this.x][this.y-1]=this.str[x][y];
+                    this.str[x][y]=temp;
+                    this.y--;
+                }
+                break;
+            case 38:
+                if(x!=0){
+                    temp=this.str[this.x-1][this.y];
+                    this.str[this.x-1][this.y]=this.str[x][y];
+                    this.str[x][y]=temp;
+                    this.x--;
+                }
+                break;
+            case 39:
+                if(y!=sum-1){
+                    temp=this.str[this.x][this.y+1];
+                    this.str[this.x][this.y+1]=this.str[x][y];
+                    this.str[x][y]=temp;
+                    this.y++;
+                }
+                break;
+            case 40:
+                if(x!=sum-1){
+                    temp=this.str[this.x+1][this.y];
+                    this.str[this.x+1][this.y]=this.str[x][y];
+                    this.str[x][y]=temp;
+                    this.x++;
+                }
+                break;
+            case 27:
+                System.exit(0);
+                break;
+            default:
+                break;
+        }
+    }
+    //重写了键盘监听类中的方法
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //对上下左右判断
+        int code=e.getKeyCode();
+        //System.out.println(code);
+        move(code);
+        NewImage();
+        cont++;
+        System.out.println(cont);
+        if(checkWin()){
+            System.out.println("you win!");
+        }
     }
 }

@@ -26,4 +26,68 @@ public class Tool {
         }
         return str;
     }
+    public static String[][] vArray(int sum){
+        String[][] str=createArray(sum);
+        Random r=new Random();
+        int x=3;
+        int y=3;
+        int rr=2;
+        int sumV=0;
+        for (int i = 0; i < sum * sum*12;) {
+            sumV++;
+            String temp;
+            int r0=r.nextInt(0,4);
+            if(r0==rr){
+                continue;
+            }
+            rr=r0;
+            switch(r0){
+                case 0:
+                    if(y==0){
+                        continue;
+                    }else{
+                        temp=str[x][y];
+                        str[x][y]=str[x][y-1];
+                        str[x][y-1]=temp;
+                        y--;
+                    }
+                    break;
+                case 1:
+                    if(x==0){
+                        continue;
+                    }else{
+                        temp=str[x][y];
+                        str[x][y]=str[x-1][y];
+                        str[x-1][y]=temp;
+                        x--;
+                    }
+                    break;
+                case 2:
+                    if(y==sum-1){
+                        continue;
+                    }else{
+                        temp=str[x][y];
+                        str[x][y]=str[x][y+1];
+                        str[x][y+1]=temp;
+                        y++;
+                    }
+                    break;
+                case 3:
+                    if(x==sum-1){
+                        continue;
+                    }else{
+                        temp=str[x][y];
+                        str[x][y]=str[x+1][y];
+                        str[x+1][y]=temp;
+                        x++;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            i++;
+        }
+        System.out.println("sumV:"+sumV);
+        return str;
+    }
 }
