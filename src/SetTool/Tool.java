@@ -17,8 +17,8 @@ public class Tool {
         Random r=new Random();
         for (int i = 0; i < sum; i++) {
             for (int i1 = 0; i1 < sum; i1++) {
-                int r1=r.nextInt(0,sum);
-                int r0=r.nextInt(0,sum);
+                int r1=r.nextInt(sum);
+                int r0=r.nextInt(sum);
                 String temp=str[i][i1];
                 str[i][i1]=str[r1][r0];
                 str[r1][r0]=temp;
@@ -26,6 +26,12 @@ public class Tool {
         }
         return str;
     }
+    public static int getRandom(int sum){
+        Random r=new Random();
+        return r.nextInt(sum);
+    }
+
+
     public static String[][] vArray(int sum){
         String[][] str=createArray(sum);
         Random r=new Random();
@@ -36,7 +42,7 @@ public class Tool {
         for (int i = 0; i < sum * sum*12;) {
             sumV++;
             String temp;
-            int r0=r.nextInt(0,4);
+            int r0=r.nextInt(4);
             if(r0==rr){
                 continue;
             }
