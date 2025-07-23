@@ -3,6 +3,20 @@ package SetTool;
 import java.util.Random;
 
 public class Tool {
+    public static String createCode(){
+        Random r=new Random();
+        StringBuilder sb=new StringBuilder();
+        char[] ctr=new char[52];
+        for (int i = 0; i < 26; i++) {
+            ctr[2*i]=(char)(i+65);
+            ctr[2*i+1]=(char)(i+97);
+        }
+        for (int i = 0; i < 4; i++) {
+            sb.append(ctr[r.nextInt(52)]);
+        }
+        sb.insert(r.nextInt(5),r.nextInt(10));
+        return sb.toString();
+    }
     public static String[][] createArray(int sum){
         String[][] str=new String[sum][sum];
         for (int i = 0; i < sum; i++) {
